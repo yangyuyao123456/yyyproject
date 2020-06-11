@@ -3,7 +3,10 @@ package com.yyy.student.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yyy.student.common.Response;
+import com.yyy.student.controller.DTO.StudentListRequest;
 import com.yyy.student.controller.DTO.StudentListResponse;
+import com.yyy.student.controller.DTO.StudentRequest;
+import com.yyy.student.controller.DTO.StudentResponse;
 import com.yyy.student.entity.Student;
 import com.yyy.student.mapper.StudentMapper;
 import com.yyy.student.service.StudentService;
@@ -11,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,30 +35,50 @@ public class StudentServiceImpl implements StudentService {
     /**
      * @Author: yuyao.yang
      * @Description: //TODO 根据条件查询学生列表
-     * @Date: 0:35 2020/6/12
-     * @Param: [pageNum, pageSize, student]
-     * @param student classNo班级号
-     *                studentNo学生号
-     *                sex 性别 0男 1女
-     *                course 课程
-     *                pass 是否及格 true及格 false不及格
-     * @return: com.github.pagehelper.PageInfo<com.yyy.student.entity.Student>
+     * @Date: 3:32 2020/6/12
+     * @Param: [studentRequest]
+     * @param studentRequest pageNo 页码
+     *                       pageSize 每页条数
+     *                       student classNo班级号
+     *                       studentNo学生号
+     *                       sex 性别 0男 1女
+     *                       course 课程
+     *                       pass 是否及格 true及格 false不及格
+     * @return: com.github.pagehelper.PageInfo<com.yyy.student.controller.DTO.StudentListResponse>
      **/
     @Override
-    public PageInfo<StudentListResponse> queryStudentList(int pageNo, int pageSize, Student student) {
+    public PageInfo<StudentListResponse> queryStudentList(StudentListRequest studentRequest) {
+        log.info("实现类层-学生列表请求对象:{}",studentRequest);
+        Integer pageNo = studentRequest.getPageNo();
+        log.info("分页页码:{}",pageNo);
+        Integer pageSize = studentRequest.getPageSize();
+        log.info("分页每页条数:{}",pageSize);
+        Student student = new Student();
+        BeanUtils.copyProperties(studentRequest,student);
+        log.info("查询条件对象:{}",student);
+        //开启分页
         PageHelper.startPage(pageNo, pageSize);
+        //对mapper列表查询进行分页处理，查询每页pageSize条时第pageNo页的数据列表
         List<Student> studentSelectList = studentMapper.queryList(student);
+        log.info("查询列表:{}",studentSelectList);
+        //初始化返回对象列表
         List<StudentListResponse> responseList = new ArrayList<>();
         for (Student student1 : studentSelectList) {
             StudentListResponse listStudent = new StudentListResponse();
+            //将查询出的列表对象复制给返回对象
             BeanUtils.copyProperties(student1,listStudent);
+            //将返回对象添加到返回对象列表中
             responseList.add(listStudent);
         }
-        PageInfo<Student> studentPageInfo = new PageInfo<>(studentSelectList, pageSize);
-        PageInfo<StudentListResponse> studentResPage = new PageInfo<>(responseList,pageSize);
+        log.info("复制后的返回列表:{}",responseList);
+        //初始化查询对象列表第pageNo页的PageInfo对象
+        PageInfo<Student> studentPageInfo = new PageInfo<>(studentSelectList, pageNo);
+        //初始化返回对象列表第pageNo页的PageInfo对象
+        PageInfo<StudentListResponse> studentResPage = new PageInfo<>(responseList,pageNo);
+        //将对象列表PageInfo对象的总页数和总条数设置给返回对象列表的PageInfo对象
         studentResPage.setPages(studentPageInfo.getPages());
         studentResPage.setTotal(studentPageInfo.getTotal());
-        studentResPage.setPageNum(pageNo);
+        log.info("实现类层-学生列表响应对象:{}",studentResPage);
         return studentResPage;
     }
 
@@ -66,43 +90,66 @@ public class StudentServiceImpl implements StudentService {
      * @return: com.yyy.student.entity.Student
      **/
     @Override
-    public Student queryStudent(String studentNo) {
-        return studentMapper.selectByStudentNo(studentNo);
+    public StudentResponse queryStudent(String studentNo) {
+        log.info("实现类层-学生信息请求对象:{}",studentNo);
+        //初始化学生信息返回对象
+        StudentResponse studentResponse = new StudentResponse();
+        Student student = studentMapper.selectByStudentNo(studentNo);
+        BeanUtils.copyProperties(student,studentResponse);
+        log.info("实现类层-学生信息响应对象:{}",studentResponse);
+        return studentResponse;
     }
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 根据学生编号更新学生信息
-     * @Date: 1:02 2020/6/12
+     * @Description: //TODO 根据学生编号更新学生和课程信息
+     * @Date: 4:15 2020/6/12
      * @Param: [student]
-     * @return: void
+     * @return: java.lang.Integer
      **/
     @Override
-    public Response editStudent(Student student) {
-        return commonReturn(studentMapper.updateByStudentNo(student));
+    @Transactional
+    public Integer editStudent(StudentRequest studentRequest) {
+        log.info("实现类层-更新学生信息请求对象:{}",studentRequest);
+        Student student = new Student();
+        BeanUtils.copyProperties(studentRequest,student);
+        Integer i = studentMapper.updateStudentByStudentNo(student);
+        i = i+ studentMapper.updateCourseByStudentNo(student);
+        log.info("实现类层-更新学生信息返回对象:{}",i);
+        return i;
     }
 
     /**
      * @Author: yuyao.yang
      * @Description: //TODO 新增学生信息
-     * @Date: 1:02 2020/6/12
+     * @Date: 4:15 2020/6/12
      * @Param: [student]
-     * @return: void
+     * @return: java.lang.Integer
      **/
     @Override
-    public Response addStudent(Student student) {
-       return commonReturn(studentMapper.insert(student));
+    @Transactional
+    public Integer addStudent(StudentRequest studentRequest) {
+        log.info("实现类层-更新学生信息请求对象:{}",studentRequest);
+        Student student = new Student();
+        BeanUtils.copyProperties(studentRequest,student);
+        Integer i = studentMapper.insertStudent(student);
+        i = i + studentMapper.insertStudent(student);
+        log.info("实现类层-更新学生信息返回对象:{}",i);
+        return i;
     }
 
     /**
      * @Author: yuyao.yang
      * @Description: //TODO 学生离校
-     * @Date: 1:02 2020/6/12
+     * @Date: 4:15 2020/6/12
      * @Param: [studentNo]
-     * @return: void
+     * @return: java.lang.Integer
      **/
     @Override
-    public Response deleteStudent(String studentNo) {
-        return commonReturn(studentMapper.deleteStudent(studentNo));
+    public Integer deleteStudent(String studentNo) {
+        log.info("实现类层-更新学生信息请求对象:{}",studentNo);
+        Integer i = studentMapper.deleteStudent(studentNo);
+        log.info("实现类层-更新学生信息返回对象:{}",i);
+        return i;
     }
 }

@@ -2,13 +2,23 @@ package com.yyy.student.controller.DTO;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @description: //TODO 学生列表请求对象
  * @author: yuyao.yang
  * @create: 2020/6/12 1:18
  **/
 @Data
-public class StudentListRequest {
+public class StudentListRequest implements Serializable {
+    /**
+     * 页码
+     */
+    private Integer pageNo;
+    /**
+     * 页数
+     */
+    private Integer pageSize;
     /**
      * 学生编号
      */
@@ -18,6 +28,7 @@ public class StudentListRequest {
      * 班级编号
      */
     private String classNo;
+
     /**
      * 性别
      */

@@ -12,11 +12,6 @@ import lombok.Data;
 @Data
 public class Student {
     /**
-     * 学生主键
-     */
-    private Integer studentId;
-
-    /**
      * 学生编号
      */
     private String studentNo;

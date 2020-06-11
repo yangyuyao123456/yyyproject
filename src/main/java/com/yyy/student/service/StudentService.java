@@ -2,7 +2,10 @@ package com.yyy.student.service;
 
 import com.github.pagehelper.PageInfo;
 import com.yyy.student.common.Response;
+import com.yyy.student.controller.DTO.StudentListRequest;
 import com.yyy.student.controller.DTO.StudentListResponse;
+import com.yyy.student.controller.DTO.StudentRequest;
+import com.yyy.student.controller.DTO.StudentResponse;
 import com.yyy.student.entity.Student;
 
 import java.util.List;
@@ -22,7 +25,7 @@ public interface StudentService {
      * @Param: [student]
      * @return: com.github.pagehelper.PageInfo<com.yyy.student.entity.Student>
      **/
-    PageInfo<StudentListResponse> queryStudentList(int pageNum, int pageSize, Student student);
+    PageInfo<StudentListResponse> queryStudentList(StudentListRequest studentRequest);
 
     /**
      * @Author: yuyao.yang
@@ -31,32 +34,32 @@ public interface StudentService {
      * @Param: [studentNo]
      * @return: com.yyy.student.entity.Student
      **/
-    Student queryStudent(String studentNo);
+    StudentResponse queryStudent(String studentNo);
 
     /**
      * @Author: yuyao.yang
      * @Description: //TODO 编辑学生信息
      * @Date: 1:41 2020/6/12
      * @Param: [student]
-     * @return: com.yyy.student.common.Response
+     * @return: java.lang.Integer
      **/
-    Response editStudent(Student student);
+    Integer editStudent(StudentRequest student);
 
     /**
      * @Author: yuyao.yang
      * @Description: //TODO 新增学生信息
      * @Date: 0:10 2020/6/12
      * @Param: [student]
-     * @return: com.yyy.student.common.Response
+     * @return: java.lang.Integer
      **/
-    Response addStudent(Student student);
+    Integer addStudent(StudentRequest student);
 
     /**
      * @Author: yuyao.yang
      * @Description: //TODO 删除学生信息
-     * @Date: 0:10 2020/6/12
+     * @Date: 4:15 2020/6/12
      * @Param: [studentNo]
-     * @return: com.yyy.student.common.Response
+     * @return: java.lang.Integer
      **/
-    Response deleteStudent(String studentNo);
+    Integer deleteStudent(String studentNo);
 }

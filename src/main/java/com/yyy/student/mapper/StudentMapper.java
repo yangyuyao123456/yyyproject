@@ -27,7 +27,14 @@ public interface StudentMapper {
      * @param student
      * @return
      */
-    int insert(@Param("student") Student student);
+    int insertStudent(@Param("student") Student student);
+
+    /**
+     * 新增课程信息
+     * @param student
+     * @return
+     */
+    int insertCourse(@Param("student") Student student);
 
     /**
      * 根据学生编号查询学生信息
@@ -48,5 +55,12 @@ public interface StudentMapper {
      * @param student
      * @return
      */
-    int updateByStudentNo(@Param("student") Student student);
+    int updateStudentByStudentNo(@Param("student") Student student);
+
+    /**
+     * 根据学生编号更新课程信息
+     * @param student
+     * @return
+     */
+    int updateCourseByStudentNo(@Param("student") Student student);
 }

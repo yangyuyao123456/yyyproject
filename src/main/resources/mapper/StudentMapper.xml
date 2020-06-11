@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yyy.student.mapper.StudentMapper">
   <resultMap id="BaseResultMap" type="com.yyy.student.entity.Student">
-    <id column="student_id" jdbcType="INTEGER" property="studentId" />
     <result column="student_no" jdbcType="VARCHAR" property="studentNo" />
     <result column="class_no" jdbcType="VARCHAR" property="classNo" />
     <result column="grade_no" jdbcType="VARCHAR" property="gradeNo" />
@@ -12,28 +11,85 @@
     <result column="success" jdbcType="INTEGER" property="success" />
     <result column="student_status" jdbcType="INTEGER" property="studentStatus" />
   </resultMap>
+  <sql id="insertStudentKey">
+    <trim suffixOverrides=",">
+      <if test="student.studentNo!=null">student_no,</if>
+      <if test="student.classNo!=null">class_no,</if>
+      <if test="student.gradeNo!=null">grade_no,</if>
+      <if test="student.name!=null">`name`,</if>
+      <if test="student.sex!=null">sex,</if>
+    </trim>
+  </sql>
+  <sql id="insertStudentValue">
+    <trim suffixOverrides=",">
+      <if test="student.studentNo!=null">#{student.studentNo},</if>
+      <if test="student.classNo!=null">#{student.classNo},</if>
+      <if test="student.gradeNo!=null">#{student.gradeNo},</if>
+      <if test="student.name!=null">#{student.name},</if>
+      <if test="student.sex!=null">#{student.sex},</if>
+    </trim>
+  </sql>
+  <sql id="updateStudentSql">
+    <trim suffixOverrides=",">
+      <if test="student.studentNo!=null">student_no=#{student.studentNo},</if>
+      <if test="student.classNo!=null">class_no=#{student.classNo},</if>
+      <if test="student.gradeNo!=null">grade_no=#{student.gradeNo},</if>
+      <if test="student.name!=null">`name`=#{student.name},</if>
+      <if test="student.sex!=null">sex=#{student.sex},</if>
+    </trim>
+  </sql>
   <delete id="deleteStudent" parameterType="java.lang.String" >
     update student
     set student_status = 1
     where student_no = #{studentNo,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.yyy.student.entity.Student">
-    insert into student (student_id, student_no, class_no, 
-      grade_no, `name`, sex, 
-      course, success)
-    values (#{studentId,jdbcType=INTEGER}, #{studentNo,jdbcType=VARCHAR}, #{classNo,jdbcType=VARCHAR}, 
-      #{gradeNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
-      #{course,jdbcType=VARCHAR}, #{success,jdbcType=VARCHAR})
+  <insert id="insertStudent" parameterType="com.yyy.student.entity.Student">
+    insert into student (<include refid="insertStudentKey"></include>)
+    values (<include refid="insertStudentValue"></include>))
   </insert>
-  <update id="updateByStudentNo" parameterType="com.yyy.student.entity.Student">
+  <update id="updateStudentByStudentNo" parameterType="com.yyy.student.entity.Student">
     update student
-    set student_no = #{studentNo,jdbcType=VARCHAR},
-      class_no = #{classNo,jdbcType=VARCHAR},
-      grade_no = #{gradeNo,jdbcType=VARCHAR},
-      `name` = #{name,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=VARCHAR},
-      course = #{course,jdbcType=VARCHAR},
-      success = #{success,jdbcType=VARCHAR}
+    <set>
+      <include refid="updateStudentSql"></include>
+    </set>
+    <where>
+      <if test="student.studentNo != null and student.studentNo != '' ">
+        AND student_no = #{student.studentNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+
+
+  <sql id="insertCourseKey">
+    <trim suffixOverrides=",">
+      <if test="student.course!=null">course,</if>
+      <if test="student.success!=null">success,</if>
+      <if test="student.studentNo!=null">student_no,</if>
+    </trim>
+  </sql>
+  <sql id="insertCourseValue">
+    <trim suffixOverrides=",">
+      <if test="student.course!=null">#{student.course},</if>
+      <if test="student.success!=null">#{student.success},</if>
+      <if test="student.studentNo!=null">#{student.studentNo},</if>
+    </trim>
+  </sql>
+  <sql id="updateCourseSql">
+    <trim suffixOverrides=",">
+      <if test="student.course!=null">course=#{student.course},</if>
+      <if test="student.success!=null">success=#{student.success},</if>
+      <if test="student.studentNo!=null">student_no=#{student.studentNo},</if>
+    </trim>
+  </sql>
+  <insert id="insertCourse" parameterType="com.yyy.student.entity.Student">
+    insert into course (<include refid="insertCourseKey"></include>)
+    values (<include refid="insertCourseValue"></include>)
+  </insert>
+  <update id="updateCourseByStudentNo" parameterType="com.yyy.student.entity.Student">
+    update course
+    <set>
+      <include refid="updateCourseSql"></include>
+    </set>
     <where>
       <if test="student.studentNo != null and student.studentNo != '' ">
         AND student_no = #{student.studentNo,jdbcType=VARCHAR}
@@ -41,33 +97,37 @@
     </where>
   </update>
   <select id="selectByStudentNo" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select student_id, student_no, class_no, grade_no, `name`, sex, course, success,student_status
-    from student
-    where student_no = #{studentNo,jdbcType=VARCHAR}
+    select student.student_id, student.student_no, student.class_no, student.grade_no,
+    student.`name`, student.sex,student.student_status, course.course, course.success
+    from student left join course
+    on student.student_no = course.student_no
+    where student_no = #{studentNo,jdbcType=VARCHAR} and student.student_status = 0
   </select>
   <select id="queryList" parameterType="com.yyy.student.entity.Student" resultMap="BaseResultMap">
-    select student_id, student_no, class_no, grade_no, `name`, sex, course, success,student_status
+    select student.student_id, student.student_no, student.class_no, student.grade_no,
+    student.`name`, student.sex,student.student_status, course.course, course.success
     from student left join course
     on student.student_no = course.student_no
     <where>
+      student.student_status = 0
       <if test="student.classNo != null and student.classNo != '' ">
-        AND class_no = #{student.classNo,jdbcType=VARCHAR}
+        AND student.class_no = #{student.classNo,jdbcType=VARCHAR}
       </if>
       <if test="student.studentNo != null and student.studentNo != '' ">
-        AND student_no = #{student.studentNo,jdbcType=VARCHAR}
+        AND student.student_no = #{student.studentNo,jdbcType=VARCHAR}
       </if>
       <if test="student.sex != null and student.sex != '' ">
-        AND sex = #{student.sex,jdbcType=VARCHAR}
+        AND student.sex = #{student.sex,jdbcType=VARCHAR}
       </if>
       <if test="student.course != null and student.course != '' ">
-        AND course = #{student.course,jdbcType=VARCHAR}
+        AND course.course = #{student.course,jdbcType=VARCHAR}
         <if test="student.pass != null and student.pass != '' ">
           <choose>
             <when test="student.pass == true">
-              success <![CDATA[>=]]> 60
+              course.success <![CDATA[>=]]> 60
             </when>
             <otherwise>
-              success <![CDATA[<]]> 60
+              course.success <![CDATA[<]]> 60
             </otherwise>
           </choose>
         </if>

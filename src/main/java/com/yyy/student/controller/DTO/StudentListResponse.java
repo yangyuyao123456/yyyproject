@@ -2,15 +2,16 @@ package com.yyy.student.controller.DTO;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * @description: //TODO 学生列表查询响应对象
+ * @description: //TODO 学生列表返回对象
  * @author: yuyao.yang
  * @create: 2020/6/12 1:18
  **/
 @Data
-public class StudentListResponse {
+public class StudentListResponse implements Serializable {
 
     /**
      * 学生编号
