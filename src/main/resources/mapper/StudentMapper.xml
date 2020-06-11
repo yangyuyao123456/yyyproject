@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yyy.student.mapper.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.yyy.student.entity.Student">
+    <id column="student_id" jdbcType="INTEGER" property="studentId" />
+    <result column="student_no" jdbcType="VARCHAR" property="studentNo" />
+    <result column="class_no" jdbcType="VARCHAR" property="classNo" />
+    <result column="grade_no" jdbcType="VARCHAR" property="gradeNo" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="course" jdbcType="VARCHAR" property="course" />
+    <result column="success" jdbcType="INTEGER" property="success" />
+    <result column="student_status" jdbcType="INTEGER" property="studentStatus" />
+  </resultMap>
+  <delete id="deleteStudent" parameterType="java.lang.String" >
+    update student
+    set student_status = 1
+    where student_no = #{studentNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yyy.student.entity.Student">
+    insert into student (student_id, student_no, class_no, 
+      grade_no, `name`, sex, 
+      course, success)
+    values (#{studentId,jdbcType=INTEGER}, #{studentNo,jdbcType=VARCHAR}, #{classNo,jdbcType=VARCHAR}, 
+      #{gradeNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{course,jdbcType=VARCHAR}, #{success,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByStudentNo" parameterType="com.yyy.student.entity.Student">
+    update student
+    set student_no = #{studentNo,jdbcType=VARCHAR},
+      class_no = #{classNo,jdbcType=VARCHAR},
+      grade_no = #{gradeNo,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      course = #{course,jdbcType=VARCHAR},
+      success = #{success,jdbcType=VARCHAR}
+    <where>
+      <if test="student.studentNo != null and student.studentNo != '' ">
+        AND student_no = #{student.studentNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <select id="selectByStudentNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select student_id, student_no, class_no, grade_no, `name`, sex, course, success,student_status
+    from student
+    where student_no = #{studentNo,jdbcType=VARCHAR}
+  </select>
+  <select id="queryList" parameterType="com.yyy.student.entity.Student" resultMap="BaseResultMap">
+    select student_id, student_no, class_no, grade_no, `name`, sex, course, success,student_status
+    from student left join course
+    on student.student_no = course.student_no
+    <where>
+      <if test="student.classNo != null and student.classNo != '' ">
+        AND class_no = #{student.classNo,jdbcType=VARCHAR}
+      </if>
+      <if test="student.studentNo != null and student.studentNo != '' ">
+        AND student_no = #{student.studentNo,jdbcType=VARCHAR}
+      </if>
+      <if test="student.sex != null and student.sex != '' ">
+        AND sex = #{student.sex,jdbcType=VARCHAR}
+      </if>
+      <if test="student.course != null and student.course != '' ">
+        AND course = #{student.course,jdbcType=VARCHAR}
+        <if test="student.pass != null and student.pass != '' ">
+          <choose>
+            <when test="student.pass == true">
+              success <![CDATA[>=]]> 60
+            </when>
+            <otherwise>
+              success <![CDATA[<]]> 60
+            </otherwise>
+          </choose>
+        </if>
+      </if>
+    </where>
+  </select>
+</mapper>
