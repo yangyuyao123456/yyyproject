@@ -7,8 +7,6 @@
     <result column="grade_no" jdbcType="VARCHAR" property="gradeNo" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sex" jdbcType="INTEGER" property="sex" />
-    <result column="course" jdbcType="VARCHAR" property="course" />
-    <result column="success" jdbcType="INTEGER" property="success" />
     <result column="student_status" jdbcType="INTEGER" property="studentStatus" />
   </resultMap>
   <sql id="insertStudentKey">
@@ -74,40 +72,16 @@
       <if test="student.studentNo!=null">#{student.studentNo},</if>
     </trim>
   </sql>
-  <sql id="updateCourseSql">
-    <trim suffixOverrides=",">
-      <if test="student.course!=null">course=#{student.course},</if>
-      <if test="student.success!=null">success=#{student.success},</if>
-      <if test="student.studentNo!=null">student_no=#{student.studentNo},</if>
-    </trim>
-  </sql>
-  <insert id="insertCourse" parameterType="com.yyy.student.entity.Student">
-    insert into course (<include refid="insertCourseKey"></include>)
-    values (<include refid="insertCourseValue"></include>)
-  </insert>
-  <update id="updateCourseByStudentNo" parameterType="com.yyy.student.entity.Student">
-    update course
-    <set>
-      <include refid="updateCourseSql"></include>
-    </set>
-    <where>
-      <if test="student.studentNo != null and student.studentNo != '' ">
-        AND student_no = #{student.studentNo,jdbcType=VARCHAR}
-      </if>
-    </where>
-  </update>
   <select id="selectByStudentNo" parameterType="java.lang.String" resultMap="BaseResultMap">
     select student.student_id, student.student_no, student.class_no, student.grade_no,
-    student.`name`, student.sex,student.student_status, course.course, course.success
-    from student left join course
-    on student.student_no = course.student_no
+    student.`name`, student.sex,student.student_status
+    from student
     where student_no = #{studentNo,jdbcType=VARCHAR} and student.student_status = 0
   </select>
   <select id="queryList" parameterType="com.yyy.student.entity.Student" resultMap="BaseResultMap">
     select student.student_id, student.student_no, student.class_no, student.grade_no,
-    student.`name`, student.sex,student.student_status, course.course, course.success
-    from student left join course
-    on student.student_no = course.student_no
+    student.`name`, student.sex,student.student_status
+    from student
     <where>
       student.student_status = 0
       <if test="student.classNo != null and student.classNo != '' ">
@@ -118,19 +92,6 @@
       </if>
       <if test="student.sex != null and student.sex != '' ">
         AND student.sex = #{student.sex,jdbcType=VARCHAR}
-      </if>
-      <if test="student.course != null and student.course != '' ">
-        AND course.course = #{student.course,jdbcType=VARCHAR}
-        <if test="student.pass != null and student.pass != '' ">
-          <choose>
-            <when test="student.pass == true">
-              course.success <![CDATA[>=]]> 60
-            </when>
-            <otherwise>
-              course.success <![CDATA[<]]> 60
-            </otherwise>
-          </choose>
-        </if>
       </if>
     </where>
   </select>

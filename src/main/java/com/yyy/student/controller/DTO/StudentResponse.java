@@ -37,16 +37,6 @@ public class StudentResponse implements Serializable {
     private Integer sex;
 
     /**
-     * 课程
-     */
-    private String course;
-
-    /**
-     * 成绩
-     */
-    private Integer success;
-
-    /**
      * 学生状态
      */
     private Integer studentStatus;

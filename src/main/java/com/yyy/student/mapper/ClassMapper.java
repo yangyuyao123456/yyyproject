@@ -11,7 +11,9 @@ public interface ClassMapper {
 
     int insert(Class record);
 
-    Class selectByPrimaryKey(Integer classId);
+    Class selectByClassId(Integer classId);
+
+    Class selectByClassNo(String classNo);
 
     List<Class> selectAll();
 

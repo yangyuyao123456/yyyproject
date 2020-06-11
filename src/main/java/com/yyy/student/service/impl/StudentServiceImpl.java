@@ -1,5 +1,6 @@
 package com.yyy.student.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yyy.student.common.Response;
@@ -7,7 +8,9 @@ import com.yyy.student.controller.DTO.StudentListRequest;
 import com.yyy.student.controller.DTO.StudentListResponse;
 import com.yyy.student.controller.DTO.StudentRequest;
 import com.yyy.student.controller.DTO.StudentResponse;
+import com.yyy.student.entity.Class;
 import com.yyy.student.entity.Student;
+import com.yyy.student.mapper.ClassMapper;
 import com.yyy.student.mapper.StudentMapper;
 import com.yyy.student.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +35,8 @@ import static com.yyy.student.common.Response.commonReturn;
 public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentMapper studentMapper;
-
+    @Autowired
+    private ClassMapper classMapper;
     /**
      * @Author: yuyao.yang
      * @Description: //TODO 根据条件查询学生列表
@@ -102,7 +107,7 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 根据学生编号更新学生和课程信息
+     * @Description: //TODO 根据学生编号更新学生信息
      * @Date: 4:15 2020/6/12
      * @Param: [student]
      * @return: java.lang.Integer
@@ -110,11 +115,19 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public Integer editStudent(StudentRequest studentRequest) {
+        Integer i = 0;
         log.info("实现类层-更新学生信息请求对象:{}",studentRequest);
-        Student student = new Student();
-        BeanUtils.copyProperties(studentRequest,student);
-        Integer i = studentMapper.updateStudentByStudentNo(student);
-        i = i+ studentMapper.updateCourseByStudentNo(student);
+        if (StringUtils.isEmpty(studentRequest.getClassNo())){
+            String classNo = studentRequest.getClassNo();
+            Class aClass = classMapper.selectByClassNo(classNo);
+            if (null != aClass){
+                Student student = new Student();
+                BeanUtils.copyProperties(studentRequest,student);
+                i = studentMapper.updateStudentByStudentNo(student);
+            }else{
+                log.info("更新学生失败，指定班级不存在");
+            }
+        }
         log.info("实现类层-更新学生信息返回对象:{}",i);
         return i;
     }
@@ -129,12 +142,20 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public Integer addStudent(StudentRequest studentRequest) {
-        log.info("实现类层-更新学生信息请求对象:{}",studentRequest);
-        Student student = new Student();
-        BeanUtils.copyProperties(studentRequest,student);
-        Integer i = studentMapper.insertStudent(student);
-        i = i + studentMapper.insertStudent(student);
-        log.info("实现类层-更新学生信息返回对象:{}",i);
+        Integer i = 0;
+        log.info("实现类层-新增学生信息请求对象:{}",studentRequest);
+        if (StringUtils.isEmpty(studentRequest.getClassNo())){
+            String classNo = studentRequest.getClassNo();
+            Class aClass = classMapper.selectByClassNo(classNo);
+            if (null != aClass){
+                Student student = new Student();
+                BeanUtils.copyProperties(studentRequest,student);
+                i = studentMapper.insertStudent(student);
+            }else{
+                log.info("新增学生失败，指定班级不存在");
+            }
+        }
+        log.info("实现类层-新增学生信息返回对象:{}",i);
         return i;
     }
 

@@ -34,8 +34,4 @@ public class StudentListRequest implements Serializable {
      */
     private Integer sex;
 
-    /**
-     * 课程
-     */
-    private String course;
 }

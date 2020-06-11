@@ -1,6 +1,7 @@
 package com.yyy.student.common;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * @create: 2020/6/12 1:26
  **/
 @Data
+@Slf4j
 public class Response implements Serializable {
     /**
      * 错误码
@@ -32,6 +34,7 @@ public class Response implements Serializable {
      * @return: com.yyy.student.common.Response
      **/
     public static Response successReturn(Response response){
+        log.info("成功返回");
         response.setCode("0");
         response.setMessage("成功");
         return response;
@@ -44,6 +47,7 @@ public class Response implements Serializable {
      * @return: com.yyy.student.common.Response
      **/
     public static Response failReturn(Response response){
+        log.info("失败返回");
         response.setCode("1");
         response.setMessage("失败");
         return response;

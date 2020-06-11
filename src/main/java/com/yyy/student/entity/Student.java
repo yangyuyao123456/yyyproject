@@ -36,20 +36,6 @@ public class Student {
      */
     private Integer sex;
 
-    /**
-     * 课程
-     */
-    private String course;
-
-    /**
-     * 成绩
-     */
-    private Integer success;
-
-    /**
-     * 是否及格
-     */
-    private Boolean pass;
 
     /**
      * 学生状态
