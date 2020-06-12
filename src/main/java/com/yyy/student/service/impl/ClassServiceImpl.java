@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @description: //TODO 学生管理实现类
+ * @description:  学生管理实现类
  * @author: yuyao.yang
  * @create: 2020/6/11 23:58
  **/
@@ -35,9 +35,9 @@ public class ClassServiceImpl implements ClassService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 班级列表查询
+     * @Description:  班级列表查询
      * @Date: 5:46 2020/6/12
-     * @Param: [classRequest]
+     * @Param: []
      * @return: java.util.List<com.yyy.student.controller.DTO.ClassResponse>
      **/
     @Override
@@ -60,9 +60,9 @@ public class ClassServiceImpl implements ClassService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 班级查询
+     * @Description:  班级查询
      * @Date: 6:00 2020/6/12
-     * @Param: [classNo]
+     * @Param: [classId]
      * @return: com.yyy.student.controller.DTO.ClassResponse
      **/
     @Override
@@ -81,7 +81,7 @@ public class ClassServiceImpl implements ClassService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 班级修改
+     * @Description:  班级修改
      * @Date: 6:00 2020/6/12
      * @Param: [classRequest]
      * @return: java.lang.Integer
@@ -113,7 +113,7 @@ public class ClassServiceImpl implements ClassService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 班级新增
+     * @Description:  班级新增
      * @Date: 6:00 2020/6/12
      * @Param: [classRequest]
      * @return: java.lang.Integer
@@ -135,7 +135,7 @@ public class ClassServiceImpl implements ClassService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 班级删除
+     * @Description:  班级删除
      * @Date: 6:00 2020/6/12
      * @Param: [classId]
      * @return: java.lang.Integer

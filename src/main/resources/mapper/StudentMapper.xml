@@ -36,15 +36,18 @@
       <if test="student.sex!=null">sex=#{student.sex},</if>
     </trim>
   </sql>
+ <!-- 学生离校-->
   <delete id="deleteStudent" parameterType="java.lang.String" >
     update student
     set student_status = 1
     where student_no = #{studentNo,jdbcType=VARCHAR}
   </delete>
+<!--  新增学生信息-->
   <insert id="insertStudent" parameterType="com.yyy.student.entity.Student">
     insert into student (<include refid="insertStudentKey"></include>)
     values (<include refid="insertStudentValue"></include>))
   </insert>
+  <!--根据学生编号更新学生信息-->
   <update id="updateStudentByStudentNo" parameterType="com.yyy.student.entity.Student">
     update student
     <set>
@@ -56,8 +59,6 @@
       </if>
     </where>
   </update>
-
-
   <sql id="insertCourseKey">
     <trim suffixOverrides=",">
       <if test="student.course!=null">course,</if>
@@ -72,12 +73,14 @@
       <if test="student.studentNo!=null">#{student.studentNo},</if>
     </trim>
   </sql>
+  <!--根据学生编号查询学生信息-->
   <select id="selectByStudentNo" parameterType="java.lang.String" resultMap="BaseResultMap">
     select student.student_id, student.student_no, student.class_no, student.grade_no,
     student.`name`, student.sex,student.student_status
     from student
     where student_no = #{studentNo,jdbcType=VARCHAR} and student.student_status = 0
   </select>
+  <!--根据条件查询学生列表-->
   <select id="queryList" parameterType="com.yyy.student.entity.Student" resultMap="BaseResultMap">
     select student.student_id, student.student_no, student.class_no, student.grade_no,
     student.`name`, student.sex,student.student_status

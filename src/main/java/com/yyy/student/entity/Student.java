@@ -6,7 +6,6 @@ import lombok.Data;
  * @Author: yuyao.yang
  * @Description:  学生类
  * @Date: 0:02 2020/6/12
- * @Param:
  * @return:
  **/
 @Data

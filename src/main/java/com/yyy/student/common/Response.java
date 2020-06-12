@@ -28,9 +28,9 @@ public class Response implements Serializable {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 成功返回公共响应
+     * @Description:  成功返回公共响应
      * @Date: 1:39 2020/6/12
-     * @Param: []
+     * @Param: [response]
      * @return: com.yyy.student.common.Response
      **/
     public static Response successReturn(Response response){
@@ -41,9 +41,9 @@ public class Response implements Serializable {
     }
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 失败返回公共响应
+     * @Description:  失败返回公共响应
      * @Date: 1:39 2020/6/12
-     * @Param: []
+     * @Param: [response]
      * @return: com.yyy.student.common.Response
      **/
     public static Response failReturn(Response response){
@@ -55,7 +55,7 @@ public class Response implements Serializable {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 增删改响应的公共方法
+     * @Description:  增删改响应的公共方法
      * @Date: 1:44 2020/6/12
      * @Param: [i]
      * @return: com.yyy.student.common.Response

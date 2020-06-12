@@ -11,7 +11,7 @@ import com.yyy.student.entity.Student;
 import java.util.List;
 
 /**
- * @description: //TODO 学生管理接口
+ * @description:  学生管理接口
  * @author: yuyao.yang
  * @create: 2020/6/11 23:58
  **/
@@ -20,7 +20,7 @@ public interface StudentService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 根据条件查询学生列表
+     * @Description: 根据条件查询学生列表
      * @Date: 0:34 2020/6/12
      * @Param: [student]
      * @return: com.github.pagehelper.PageInfo<com.yyy.student.entity.Student>
@@ -29,7 +29,7 @@ public interface StudentService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 根据学生编号查询学生信息
+     * @Description:  根据学生编号查询学生信息
      * @Date: 0:09 2020/6/12
      * @Param: [studentNo]
      * @return: com.yyy.student.entity.Student
@@ -38,7 +38,7 @@ public interface StudentService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 编辑学生信息
+     * @Description:  编辑学生信息
      * @Date: 1:41 2020/6/12
      * @Param: [student]
      * @return: java.lang.Integer
@@ -47,7 +47,7 @@ public interface StudentService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 新增学生信息
+     * @Description:  新增学生信息
      * @Date: 0:10 2020/6/12
      * @Param: [student]
      * @return: java.lang.Integer
@@ -56,7 +56,7 @@ public interface StudentService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 删除学生信息
+     * @Description:  删除学生信息
      * @Date: 4:15 2020/6/12
      * @Param: [studentNo]
      * @return: java.lang.Integer

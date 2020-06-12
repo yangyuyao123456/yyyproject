@@ -34,7 +34,7 @@ public class ClassServiceImplTest {
 
     /**
     *
-    * 查出所有班级信息单元测试
+    * 班级列表查询单元测试
     *
     */
     @Test
@@ -56,7 +56,7 @@ public class ClassServiceImplTest {
 
     /**
     *
-    * 查出单个班级信息单元测试
+    * 班级查询单元测试
     *
     */
     @Test
@@ -67,7 +67,7 @@ public class ClassServiceImplTest {
 
     /**
     *
-    * 修改班级信息单元测试
+    * 班级修改单元测试
     *
     */
     @Test
@@ -99,7 +99,7 @@ public class ClassServiceImplTest {
 
     /**
     *
-    * 添加班级信息单元测试
+    * 班级新增单元测试
     *
     */
     @Test
@@ -107,9 +107,9 @@ public class ClassServiceImplTest {
         StudentRequest studentRequest =new StudentRequest();
         Integer i = 0;
         studentRequest.setClassNo("1");
-        studentRequest.setName("jkkll");
+        studentRequest.setName("吴欣欣");
         studentRequest.setSex(1);
-        studentRequest.setStudentNo("209u87656");
+        studentRequest.setStudentNo("201977701");
         studentRequest.setGradeNo("1");
         log.info("实现类层-新增学生信息请求对象:{}",studentRequest);
         if (StringUtils.isEmpty(studentRequest.getClassNo())){
@@ -128,7 +128,7 @@ public class ClassServiceImplTest {
         }
     /**
      *
-     * 删除班级信息单元测试
+     * 班级删除单元测试
      *
      */
     @Test

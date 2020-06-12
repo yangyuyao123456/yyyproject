@@ -4,29 +4,35 @@
   <resultMap id="BaseResultMap" type="com.yyy.student.entity.Class">
     <result column="class_no" jdbcType="VARCHAR" property="classNo" />
   </resultMap>
+<!--  根据班级id删除班级-->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from class
     where class_id = #{classId,jdbcType=INTEGER}
   </delete>
+<!--  班级新增  -->
   <insert id="insert" parameterType="com.yyy.student.entity.Class">
     insert into class (class_no)
     values (#{classNo,jdbcType=VARCHAR})
   </insert>
+<!--  班级更新-->
   <update id="updateByPrimaryKey" parameterType="com.yyy.student.entity.Class">
     update class
     set class_no = #{classNo,jdbcType=VARCHAR}
     where class_id = #{classId,jdbcType=INTEGER}
   </update>
+<!--  根据班级id查询班级-->
   <select id="selectByClassId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select class_id, class_no
     from class
     where class_id = #{classId,jdbcType=INTEGER}
   </select>
+  <!--  根据班级号查询班级-->
   <select id="selectByClassNo" parameterType="java.lang.String" resultMap="BaseResultMap">
     select class_id, class_no
     from class
     where class_no = #{classNo,jdbcType=VARCHAR}
   </select>
+  <!--  班级列表查询-->
   <select id="selectAll" resultMap="BaseResultMap">
     select class_id, class_no
     from class

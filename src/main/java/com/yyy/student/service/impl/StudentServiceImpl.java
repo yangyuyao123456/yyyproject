@@ -27,7 +27,7 @@ import java.util.List;
 import static com.yyy.student.common.Response.commonReturn;
 
 /**
- * @description: //TODO 学生管理实现类
+ * @description:  学生管理实现类
  * @author: yuyao.yang
  * @create: 2020/6/11 23:58
  **/
@@ -40,16 +40,9 @@ public class StudentServiceImpl implements StudentService {
     private ClassMapper classMapper;
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 根据条件查询学生列表
+     * @Description:  根据条件查询学生列表
      * @Date: 3:32 2020/6/12
      * @Param: [studentRequest]
-     * @param studentRequest pageNo 页码
-     *                       pageSize 每页条数
-     *                       student classNo班级号
-     *                       studentNo学生号
-     *                       sex 性别 0男 1女
-     *                       course 课程
-     *                       pass 是否及格 true及格 false不及格
      * @return: com.github.pagehelper.PageInfo<com.yyy.student.controller.DTO.StudentListResponse>
      **/
     @Override
@@ -90,9 +83,9 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 根据学生编号查询学生信息
+     * @Description:  根据学生编号查询学生信息
      * @Date: 0:55 2020/6/12
-     * @Param: [student]
+     * @Param: [studentNo]
      * @return: com.yyy.student.entity.Student
      **/
     @Override
@@ -110,9 +103,9 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 根据学生编号更新学生信息
+     * @Description: 根据学生编号更新学生信息
      * @Date: 4:15 2020/6/12
-     * @Param: [student]
+     * @Param: [studentRequest]
      * @return: java.lang.Integer
      **/
     @Override
@@ -137,9 +130,9 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 新增学生信息
+     * @Description:  新增学生信息
      * @Date: 4:15 2020/6/12
-     * @Param: [student]
+     * @Param: [studentRequest]
      * @return: java.lang.Integer
      **/
     @Override
@@ -164,7 +157,7 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * @Author: yuyao.yang
-     * @Description: //TODO 学生离校
+     * @Description:  学生离校
      * @Date: 4:15 2020/6/12
      * @Param: [studentNo]
      * @return: java.lang.Integer
