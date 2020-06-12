@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @description: //TODO 学生列表请求对象
+ * @description:  学生列表请求对象
  * @author: yuyao.yang
  * @create: 2020/6/12 1:18
  **/

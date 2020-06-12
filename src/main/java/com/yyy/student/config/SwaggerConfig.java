@@ -1,7 +1,7 @@
 package com.yyy.student.config;
 
 /**
- * @description: //TODO
+ * @description:
  * @author: yuyao.yang
  * @create: 2020/6/11 23:22
  **/

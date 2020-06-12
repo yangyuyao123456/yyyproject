@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +34,9 @@ import static com.yyy.student.common.Response.commonReturn;
 @Service
 @Slf4j
 public class StudentServiceImpl implements StudentService {
-    @Autowired
+    @Resource
     private StudentMapper studentMapper;
-    @Autowired
+    @Resource
     private ClassMapper classMapper;
     /**
      * @Author: yuyao.yang
@@ -62,8 +63,8 @@ public class StudentServiceImpl implements StudentService {
         BeanUtils.copyProperties(studentRequest,student);
         log.info("查询条件对象:{}",student);
         //开启分页
-        PageHelper.startPage(pageNo, pageSize);
         //对mapper列表查询进行分页处理，查询每页pageSize条时第pageNo页的数据列表
+        PageHelper.startPage(pageNo, pageSize);
         List<Student> studentSelectList = studentMapper.queryList(student);
         log.info("查询列表:{}",studentSelectList);
         //初始化返回对象列表
@@ -100,8 +101,10 @@ public class StudentServiceImpl implements StudentService {
         //初始化学生信息返回对象
         StudentResponse studentResponse = new StudentResponse();
         Student student = studentMapper.selectByStudentNo(studentNo);
-        BeanUtils.copyProperties(student,studentResponse);
-        log.info("实现类层-学生信息响应对象:{}",studentResponse);
+        if (student!=null){
+            BeanUtils.copyProperties(student,studentResponse);
+            log.info("实现类层-学生信息响应对象:{}",studentResponse);
+        }
         return studentResponse;
     }
 
@@ -117,7 +120,7 @@ public class StudentServiceImpl implements StudentService {
     public Integer editStudent(StudentRequest studentRequest) {
         Integer i = 0;
         log.info("实现类层-更新学生信息请求对象:{}",studentRequest);
-        if (StringUtils.isEmpty(studentRequest.getClassNo())){
+        if (!StringUtils.isEmpty(studentRequest.getClassNo())){
             String classNo = studentRequest.getClassNo();
             Class aClass = classMapper.selectByClassNo(classNo);
             if (null != aClass){

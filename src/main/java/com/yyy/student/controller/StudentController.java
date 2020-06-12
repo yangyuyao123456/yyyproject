@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import static com.yyy.student.common.Response.*;
 
 /**
- * @description: //TODO 学生管理控制类
+ * @description:  学生管理控制类
  * @author: yuyao.yang
  * @create: 2020/6/11 23:27
  **/

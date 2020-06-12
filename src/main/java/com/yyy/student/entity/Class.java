@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @Author: yuyao.yang
- * @Description: //TODO 班级类
+ * @Description:  班级类
  * @Date: 0:02 2020/6/12
  * @Param:
  * @return:

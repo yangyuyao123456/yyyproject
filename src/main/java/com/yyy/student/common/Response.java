@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.Serializable;
 
 /**
- * @description: //TODO 响应类
+ * @description:  响应类
  * @author: yuyao.yang
  * @create: 2020/6/12 1:26
  **/

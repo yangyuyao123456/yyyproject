@@ -19,7 +19,7 @@ import java.util.List;
 import static com.yyy.student.common.Response.*;
 
 /**
- * @description: //TODO 班级管理控制类
+ * @description: 班级管理控制类
  * @author: yuyao.yang
  * @create: 2020/6/12 06:01
  **/
